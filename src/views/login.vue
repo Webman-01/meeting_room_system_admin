@@ -1,0 +1,132 @@
+<template>
+  <div class="login-container">
+    <a-card
+      style="
+        width: 450px;
+        height: 500px;
+        border-radius: 20px;
+        box-shadow: 0px 10px 25px #cac6c6;
+      "
+      :hoverable="true"
+    >
+      <h1 class="title">会议室预订系统</h1>
+      <a-form
+        :model="formState"
+        :colon="false"
+        :label-col="{ span: 4 }"
+        :wrapper-col="{ span: 20 }"
+        autocomplete="off"
+        @finish="onFinish"
+        @finishFailed="onFinishFailed"
+      >
+        <a-form-item
+          label="用户名"
+          name="username"
+          :rules="[{ required: usernameFlag, message: '请输入用户名' }]"
+        >
+          <!-- eslint-disable vue/no-v-model-argument -->
+          <a-input
+            v-model:value="formState.username"
+            @change="changeUsername(formState.username)"
+          />
+        </a-form-item>
+
+        <a-form-item
+          label="密码"
+          name="password"
+          :rules="[{ required: passwordFlag, message: '请输入密码' }]"
+        >
+          <a-input-password
+            v-model:value="formState.password"
+            @change="changePassword(formState.password)"
+          />
+        </a-form-item>
+
+        <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
+          <div class="link">
+            <router-link to="/register">创建账号</router-link>
+            <router-link to="update_password">忘记密码</router-link>
+          </div>
+        </a-form-item>
+
+        <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
+          <a-button type="primary" html-type="submit" style="width: 100px"
+            >登录</a-button
+          >
+        </a-form-item>
+      </a-form>
+    </a-card>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { reactive, ref } from "vue";
+import { message } from "ant-design-vue";
+import { useRouter } from "vue-router";
+//@ts-ignore
+import { login } from "../utils/interfaces";
+
+let $router = useRouter();
+
+interface FormState {
+  username: string;
+  password: string;
+}
+
+const formState = reactive<FormState>({
+  username: "",
+  password: "",
+});
+const onFinish = async (values: FormState) => {
+  const res = await login(values.username, values.password);
+  console.log(res);
+
+  const { code, message: msg, data } = res.data;
+  if (res.status == 201 || res.status == 200) {
+    message.success("登录成功");
+    //登录成功跳到首页
+    $router.push("/");
+
+    //存储token
+    console.log(data.accessToken);
+    localStorage.setItem("access_token", data.accessToken);
+    localStorage.setItem("refresh_token", data.refreshToken);
+    localStorage.setItem("user_info", JSON.stringify(data.userInfo));
+  } else {
+    message.error(res.data.data || "系统繁忙,请稍后再试");
+  }
+  console.log(localStorage.getItem("access_token"));
+};
+
+const onFinishFailed = (errorInfo: any) => {
+  console.log("Failed:", errorInfo);
+};
+
+const usernameFlag = ref<boolean>(true);
+const passwordFlag = ref<boolean>(true);
+const changeUsername = (requireString: string) => {
+  usernameFlag.value = requireString.trim() === "";
+};
+const changePassword = (requireString: string) => {
+  passwordFlag.value = requireString.trim() === "";
+};
+</script>
+
+<style lang="scss" scoped>
+.login-container {
+  width: 400px;
+  margin: 100px auto 0 auto;
+  text-align: center;
+  .link {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+  margin-bottom: 50px;
+}
+</style>
