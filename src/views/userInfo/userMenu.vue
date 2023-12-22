@@ -2,7 +2,7 @@
   <div class="menu-container">
     <div class="menu">
       <a-menu
-        v-model:openKeys="state.openKeys"
+        :openKeys="state.openKeys"
         :selectedKeys="state.selectedKeys"
         mode="inline"
         theme="light"
@@ -19,17 +19,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch, h, onMounted, watchEffect } from "vue";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  PieChartOutlined,
-  MailOutlined,
-  DesktopOutlined,
-  InboxOutlined,
-  AppstoreOutlined,
-} from "@ant-design/icons-vue";
-import router from "@/router";
+import { reactive, watch, h, watchEffect } from "vue";
+import { PieChartOutlined, DesktopOutlined } from "@ant-design/icons-vue";
 import { useRoute, useRouter } from "vue-router";
 const state = reactive({
   collapsed: false,

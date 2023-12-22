@@ -1,3 +1,4 @@
+import type { CreateMeetingRoom } from "@/types/meetingRoom.types";
 import type { UserInfo, UpdatePassword } from "@/types/user.types";
 import { message } from "ant-design-vue";
 import axios, { type AxiosRequestConfig } from "axios";
@@ -125,4 +126,36 @@ export async function updatePasswordCaptcha(email: string) {
       address: email,
     },
   });
+}
+
+//会议室管理模块
+export async function meetingRoomList(
+  name: string,
+  capacity: string,
+  equipment: string,
+  pageNo: number,
+  pageSize: number
+) {
+  return await axiosInstance.get("/meeting-room/list", {
+    params: {
+      name,
+      capacity,
+      equipment,
+      pageNo,
+      pageSize,
+    },
+  });
+}
+
+export async function deleteMeetingRoom(id: number) {
+  return await axiosInstance.delete("/meeting-room/" + id);
+}
+export async function createMeetingRoom(meetingRoom: CreateMeetingRoom) {
+  return await axiosInstance.post("/meeting-room/create", meetingRoom);
+}
+export async function updateMeetingRoom(meetingRoom: CreateMeetingRoom) {
+  return await axiosInstance.put("/meeting-room/update", meetingRoom);
+}
+export async function findMeetingRoom(id: number) {
+  return await axiosInstance.get("/meeting-room/find" + id);
 }

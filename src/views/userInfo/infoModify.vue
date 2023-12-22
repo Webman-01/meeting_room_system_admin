@@ -67,11 +67,11 @@ import {
   getUserInfo,
   updateUserInfo,
   updateUserInfoCaptcha,
-} from ".././utils/interfaces";
+} from "../../utils/interfaces";
 import { message } from "ant-design-vue";
-import Avatar from "../updateInfoAvatar/avatar.vue";
+import Avatar from "../../updateInfoAvatar/avatar.vue";
 
-import type { UserInfo } from '../types/user.types'
+import type { UserInfo } from '../../types/user.types'
 import { useAvatarInfoStore } from "@/stores/avatarInfo";
 
 //从pinia中引入头像数据

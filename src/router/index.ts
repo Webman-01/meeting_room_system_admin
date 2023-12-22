@@ -16,24 +16,39 @@ const router = createRouter({
             {
               path: "user_manage",
               name: "userManage",
-              component: () => import("../views/userMange.vue"),
+              component: () => import("../views/manage/userMange.vue"),
+            },
+            {
+              path: "meeting_room_manage",
+              name: "meetingRoomManage",
+              component: () => import("../views/manage/meetingRoomManage.vue"),
+            },
+            {
+              path: "booking_manage",
+              name: "bookingManage",
+              component: () => import("../views/manage/bookingManage.vue"),
+            },
+            {
+              path: "statistics",
+              name: "statistics",
+              component: () => import("../views/manage/statistics.vue"),
             },
           ],
         },
         {
           path: "userMenu",
           name: "userMenu",
-          component: () => import("../views/userMenu.vue"),
+          component: () => import("../views/userInfo/userMenu.vue"),
           children: [
             {
               path: "info_modify",
               name: "infoModify",
-              component: () => import("../views/infoModify.vue"),
+              component: () => import("../views/userInfo/infoModify.vue"),
             },
             {
               path: "password_modify",
               name: "passwordModify",
-              component: () => import("../views/passwordModify.vue"),
+              component: () => import("../views/userInfo/passwordModify.vue"),
             },
           ],
         },

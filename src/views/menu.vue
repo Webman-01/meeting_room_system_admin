@@ -2,12 +2,13 @@
   <div class="menu-container">
     <div class="menu">
       <a-menu
-        v-model:openKeys="state.openKeys"
-        v-model:selectedKeys="state.selectedKeys"
+        :openKeys="state.openKeys"
+        :selectedKeys="state.selectedKeys"
         mode="inline"
         theme="light"
         :inline-collapsed="state.collapsed"
         :items="items"
+        @click="changeRoute"
       ></a-menu>
     </div>
     <div class="userMange">
@@ -17,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch, h } from "vue";
+import { reactive, watch, h, watchEffect } from "vue";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -27,6 +28,7 @@ import {
   InboxOutlined,
   AppstoreOutlined,
 } from "@ant-design/icons-vue";
+import { useRoute, useRouter } from "vue-router";
 const state = reactive({
   collapsed: false,
   selectedKeys: ["1"],
@@ -59,16 +61,44 @@ const items = reactive([
     title: "统计",
   },
 ]);
+const $router = useRouter();
+const $route = useRoute()
 watch(
   () => state.openKeys,
   (_val, oldVal) => {
     state.preOpenKeys = oldVal;
   }
 );
-const toggleCollapsed = () => {
-  state.collapsed = !state.collapsed;
-  state.openKeys = state.collapsed ? [] : state.preOpenKeys;
-};
+//点击改变菜单栏
+const changeRoute = (e:any)=>{
+  //切换选中高亮
+  state.selectedKeys[0] = e.key
+  switch(e.key){
+    case '1':
+      $router.push('/meeting_room_manage')
+      break
+    case '2':
+      $router.push('/booking_manage')
+      break
+    case '3':
+      $router.push('/user_manage')
+      break
+    case '4':
+      $router.push('/statistics')
+      break
+  }
+}
+watchEffect(() => {
+  if($route.path == '/meeting_room_manage'){
+    state.selectedKeys = ['1']
+  }else if($route.path == '/booking_manage'){
+    state.selectedKeys = ['2']
+  }else if($route.path == '/user_manage'){
+    state.selectedKeys = ['3']
+  }else if($route.path == '/statistics'){
+    state.selectedKeys = ['4']
+  }
+});
 </script>
 <style lang="scss" scoped>
 .menu-container {

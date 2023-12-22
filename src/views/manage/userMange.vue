@@ -61,12 +61,20 @@
           <template v-else-if="column.dataIndex === 'status'">
             <div v-if="record.isFrozen">已冻结</div>
           </template>
+           <!-- 创建时间 -->
+           <template v-if="column.dataIndex === 'createTime'">
+            <div>{{ formatTime(record.createTime) }}</div>
+          </template>
+          <!-- 更新时间 -->
+          <template v-if="column.dataIndex === 'updateTime'">
+            <div>{{ formatTime(record.updateTime) }}</div>
+          </template>
         </template>
       </a-table>
       <div class="pagination">
         <a-pagination
           v-model:current="pageNo"
-          :total="totalCount"
+          :total="(totalCount/pageSize)*10"
           show-less-items
         />
       </div>
@@ -76,12 +84,17 @@
 <script lang="ts" setup>
 import { reactive, ref, watchEffect } from "vue";
 import { message } from "ant-design-vue";
-import { freeze, userSearch } from "../utils/interfaces";
+import { freeze, userSearch } from "../../utils/interfaces";
 import {
   UserOutlined,
   RedditOutlined,
   EditOutlined,
 } from "@ant-design/icons-vue";
+import moment from "moment";
+//格式化时间
+function formatTime(date: Date) {
+  return moment(date).format("YYYY-MM-DD HH:mm:ss");
+}
 interface SearchUserData {
   username: string;
   nickName: string;

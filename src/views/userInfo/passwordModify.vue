@@ -75,9 +75,9 @@
     getUserInfo,
     updatePassword,
     updatePasswordCaptcha,
-  } from ".././utils/interfaces";
+  } from "../../utils/interfaces";
   import { message } from "ant-design-vue";
-  import type { UpdatePassword } from '../types/user.types'
+  import type { UpdatePassword } from '../../types/user.types'
   import { useRouter } from "vue-router";
   
   let $router = useRouter();

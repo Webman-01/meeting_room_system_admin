@@ -20,14 +20,15 @@ import { UserOutlined } from "@ant-design/icons-vue";
 
 <style lang="scss" scoped>
 .layout {
-  height: 100vh;
+  height: 60px;
   display: flex;
   flex-direction: column;
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 40px;
+    height: 60px;
+    padding: 0px 40px;
     border-bottom: 1px solid #e6e8eb;
     .icon {
       font-size: 40px;
