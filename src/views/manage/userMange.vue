@@ -112,7 +112,7 @@ const pageSize = ref(6);
 const totalCount = ref(1);
 const userResult = ref([]);
 //用户列表返回的数据
-interface UserSearchResult {
+export interface UserSearchResult {
   id: number;
   username: string;
   nickName: string;

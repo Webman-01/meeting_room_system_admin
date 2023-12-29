@@ -70,7 +70,7 @@
     </div>
   </template>
   <script lang="ts" setup>
-  import { reactive, watch, watchEffect } from "vue";
+  import { reactive, watchEffect } from "vue";
   import {
     getUserInfo,
     updatePassword,

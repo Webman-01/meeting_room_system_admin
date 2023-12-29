@@ -177,7 +177,7 @@ const pageSize = ref(6);
 const totalCount = ref(0);
 const meetingRoomResult = ref([]);
 //会议室列表返回的数据
-interface MeetingRoomSearchResult {
+export interface MeetingRoomSearchResult {
   id: number;
   name: string;
   capacity: string;
