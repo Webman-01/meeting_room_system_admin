@@ -171,18 +171,17 @@ export async function bookingList(
   pageNo: number,
   pageSize: number
 ) {
-  console.log(searchBooking,'axios');
-  console.log(searchBooking.rangeStartTime,'t1');
-  console.log(dayjs(searchBooking.rangeStartTime),'t2');
-  console.log(dayjs(searchBooking.rangeStartTime).valueOf(),'t3');
-  console.log(dayjs(searchBooking.rangeStartTime).format('YYYY-MM-DD HH:mm:ss'),'t4');
-  console.log(dayjs(dayjs(searchBooking.rangeStartTime).format('YYYY-MM-DD HH:mm:ss')).valueOf(),'t5');
-  console.log(dayjs(dayjs(searchBooking.rangeEndTime).format('YYYY-MM-DD HH:mm:ss')).valueOf(),'t6');
-  console.log( new Date('2023-12-27 00:00:00').getTime(),'27');
-  console.log( new Date('2023-12-28').getTime(),'28');
-  console.log(new Date('2023-12-27').toISOString(),'21 oo');
-  console.log(new Date(1703606400000),'time');
-  
+  // console.log(searchBooking,'axios');
+  // console.log(searchBooking.rangeStartTime,'t1');
+  // console.log(dayjs(searchBooking.rangeStartTime),'t2');
+  // console.log(dayjs(searchBooking.rangeStartTime).valueOf(),'t3');
+  // console.log(dayjs(searchBooking.rangeStartTime).format('YYYY-MM-DD HH:mm:ss'),'t4');
+  // console.log(dayjs(dayjs(searchBooking.rangeStartTime).format('YYYY-MM-DD HH:mm:ss')).valueOf(),'t5');
+  // console.log(dayjs(dayjs(searchBooking.rangeEndTime).format('YYYY-MM-DD HH:mm:ss')).valueOf(),'t6');
+  // console.log( new Date('2023-12-27 00:00:00').getTime(),'27');
+  // console.log( new Date('2023-12-28').getTime(),'28');
+  // console.log(new Date('2023-12-27').toISOString(),'21 oo');
+  // console.log(new Date(1703606400000),'time');
   
   let bookingTimeRangeStart;
   let bookingTimeRangeEnd;
@@ -215,4 +214,21 @@ export async function reject(id:number){
 }
 export async function unbind(id:number){
   return await axiosInstance.get('/booking/unbind/'+id)
+}
+//统计管理模块
+export async function meetingRoomUsedCount(startTime:string,endTime:string){
+  return await axiosInstance.get('/statistic/meetingRoomUsedCount',{
+    params:{
+      startTime,
+      endTime
+    }
+  })
+}
+export async function userBookingCount(startTime:string,endTime:string){
+  return await axiosInstance.get('/statistic/userBookingCount',{
+    params:{
+      startTime,
+      endTime
+    }
+  })
 }
