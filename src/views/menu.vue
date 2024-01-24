@@ -20,13 +20,9 @@
 <script lang="ts" setup>
 import { reactive, watch, h, watchEffect } from "vue";
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   PieChartOutlined,
-  MailOutlined,
   DesktopOutlined,
   InboxOutlined,
-  AppstoreOutlined,
 } from "@ant-design/icons-vue";
 import { useRoute, useRouter } from "vue-router";
 const state = reactive({

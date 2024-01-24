@@ -101,6 +101,14 @@
             <!-- 预订时间 -->
             <template v-if="column.dataIndex === 'createTime'">
               <div>{{ formatTime(record.createTime) }}</div>
+              <!-- 备注 -->
+              <template v-if="column.dataIndex === 'note'">
+                <div>{{ record.note }}</div>
+              </template>
+              <!-- 描述 -->
+              <template v-if="column.dataIndex === 'description'">
+                <div>{{ record.room.description }}</div>
+              </template>
             </template>
             <!-- 操作 -->
             <template v-else-if="column.dataIndex === 'operate'">
@@ -108,28 +116,28 @@
                 title="确认通过吗?"
                 ok-text="确定"
                 cancel-text="取消"
-                @confirm="confirm(record.id,'apply')"
+                @confirm="confirm(record.id, 'apply')"
                 @cancel="cancel"
               >
-              <a-tag color="success">通过</a-tag>
+                <a-tag color="success">通过</a-tag>
               </a-popconfirm>
               <a-popconfirm
                 title="确认要驳回吗?"
                 ok-text="确定"
                 cancel-text="取消"
-                @confirm="confirm(record.id,'reject')"
+                @confirm="confirm(record.id, 'reject')"
                 @cancel="cancel"
               >
-              <a-tag color="processing">驳回</a-tag>
+                <a-tag color="processing">驳回</a-tag>
               </a-popconfirm>
               <a-popconfirm
                 title="确认解除吗?"
                 ok-text="确定"
                 cancel-text="取消"
-                @confirm="confirm(record.id,'unbind')"
+                @confirm="confirm(record.id, 'unbind')"
                 @cancel="cancel"
               >
-              <a-tag color="error">解除</a-tag>
+                <a-tag color="error">解除</a-tag>
               </a-popconfirm>
             </template>
           </template>
@@ -214,7 +222,6 @@ const getBookingList = async () => {
     pageSize.value
   );
   const { data } = res.data;
-  console.log(data, "booking");
 
   if (res.status == 200 || res.status == 201) {
     totalCount.value = data.totalCount;
@@ -240,37 +247,36 @@ function formatTime(date: Date) {
   return moment(date).format("YYYY-MM-DD HH:mm:ss");
 }
 //操作部分弹出框
-const confirm = async(id:number,status:'apply' | 'reject' | 'unbind') => {
-  console.log(id,'id');
-  console.log(status,'status');
-  if(status == 'apply'){
-    const res = await apply(id)
-    if(res.status == 200 || res.status == 201){
-      message.success('状态更新成功')
-    }else{
-      message.error(res.data.data)
+const confirm = async (id: number, status: "apply" | "reject" | "unbind") => {
+
+  if (status == "apply") {
+    const res = await apply(id);
+    if (res.status == 200 || res.status == 201) {
+      message.success("状态更新成功");
+    } else {
+      message.error(res.data.data);
     }
-  }else if(status == 'reject'){
-    const res = await reject(id)
-    if(res.status == 200 || res.status == 201){
-      message.success('状态更新成功')
-    }else{
-      message.error(res.data.data)
+  } else if (status == "reject") {
+    const res = await reject(id);
+    if (res.status == 200 || res.status == 201) {
+      message.success("状态更新成功");
+    } else {
+      message.error(res.data.data);
     }
-  }else if(status == 'unbind'){
-    const res = await unbind(id)
-    if(res.status == 200 || res.status == 201){
-      message.success('状态更新成功')
-    }else{
-      message.error(res.data.data)
+  } else if (status == "unbind") {
+    const res = await unbind(id);
+    if (res.status == 200 || res.status == 201) {
+      message.success("状态更新成功");
+    } else {
+      message.error(res.data.data);
     }
   }
   //操作之后再次发起请求获取最新的页面数据展示
-  getBookingList()
+  getBookingList();
 };
 
 const cancel = () => {
-  message.warning('取消操作');
+  message.warning("取消操作");
 };
 let columns = [
   {
@@ -366,6 +372,9 @@ let columns = [
 .ant-table {
   .ant-table-content {
     .ant-table-row {
+    .ant-tag{
+      margin-bottom: 5px;
+    }
       .ant-tag-red {
         cursor: pointer;
       }

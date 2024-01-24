@@ -1,7 +1,6 @@
 import type { CreateMeetingRoom } from "@/types/meetingRoom.types";
 import type { UserInfo, UpdatePassword } from "@/types/user.types";
 import type {
-  BookingSearchResult,
   SearchBookingData,
 } from "@/views/manage/bookingManage.vue";
 import { message } from "ant-design-vue";
@@ -171,18 +170,6 @@ export async function bookingList(
   pageNo: number,
   pageSize: number
 ) {
-  // console.log(searchBooking,'axios');
-  // console.log(searchBooking.rangeStartTime,'t1');
-  // console.log(dayjs(searchBooking.rangeStartTime),'t2');
-  // console.log(dayjs(searchBooking.rangeStartTime).valueOf(),'t3');
-  // console.log(dayjs(searchBooking.rangeStartTime).format('YYYY-MM-DD HH:mm:ss'),'t4');
-  // console.log(dayjs(dayjs(searchBooking.rangeStartTime).format('YYYY-MM-DD HH:mm:ss')).valueOf(),'t5');
-  // console.log(dayjs(dayjs(searchBooking.rangeEndTime).format('YYYY-MM-DD HH:mm:ss')).valueOf(),'t6');
-  // console.log( new Date('2023-12-27 00:00:00').getTime(),'27');
-  // console.log( new Date('2023-12-28').getTime(),'28');
-  // console.log(new Date('2023-12-27').toISOString(),'21 oo');
-  // console.log(new Date(1703606400000),'time');
-  
   let bookingTimeRangeStart;
   let bookingTimeRangeEnd;
   if(searchBooking.rangeStartTime){
