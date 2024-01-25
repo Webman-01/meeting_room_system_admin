@@ -149,7 +149,6 @@ watchEffect(async () => {
   } else {
     message.error(data || "系统繁忙，请稍后再试");
   }
-  console.log(userResult, "datasource");
 });
 
 //冻结用户
