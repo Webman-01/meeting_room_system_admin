@@ -25,20 +25,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
 import { useAvatarInfoStore } from "@/stores/avatarInfo";
 
 const loading = ref<boolean>(false);
 let useAvatarInfo = useAvatarInfoStore();
-function getImageUrl(fileName: any) {
-  console.log("http://localhost:3000/" + fileName);
+function getImageUrl(fileName: string) {
+  // console.log("http://localhost:3000/" + fileName);
   return "http://localhost:3000/" + fileName;
 }
 const handleChange = (info: any) => {
   //info包含了上传文件的一些信息
-  console.log(info, "info");
+  // console.log(info, "info");
   const { status } = info.file;
   if (status === "uploading") {
     loading.value = true;

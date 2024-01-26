@@ -62,7 +62,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, watchEffect, watchPostEffect } from "vue";
+import { reactive, watchEffect } from "vue";
 import {
   getUserInfo,
   updateUserInfo,
@@ -89,7 +89,6 @@ const onFinish = async (values: UserInfo) => {
   //因为Avatar组件中只是修改了pinia仓库中的avatarUrl,这里的formState中avatar不会变，所以在传数据时要改下这个组件中formState.avatar的值
   values.avatar = avatarInfo.avatarUrl;
   const res = await updateUserInfo(values);
-  console.log(res);
   const { message: msg, data } = res.data;
   if (res.status == 200 || res.status == 201) {
     message.success("更新用户信息成功");
@@ -100,7 +99,7 @@ const onFinish = async (values: UserInfo) => {
 //发送验证码
 async function sendCaptcha() {
   const res = await updateUserInfoCaptcha(); //直接根据jwt中的email发,不用传参数
-  console.log(res);
+  // console.log(res);
   if (res.status == 200 || res.status == 201) {
     message.success(res.data.data);
   } else {

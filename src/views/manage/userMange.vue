@@ -56,13 +56,16 @@
           <!-- 用户冻结操作显示 -->
           <template v-else-if="column.dataIndex === 'excute'">
             <a @click="freezeUser(record.id)" class="freeze">冻结</a>
+            <a @click="thawUser(record.id)" class="freeze">解冻</a>
           </template>
           <!-- 显示用户状态 -->
           <template v-else-if="column.dataIndex === 'status'">
-            <div v-if="record.isFrozen">已冻结</div>
+            <div v-if="record.isFrozen">
+              <a-tag color="#2db7f5">已冻结</a-tag>
+            </div>
           </template>
-           <!-- 创建时间 -->
-           <template v-if="column.dataIndex === 'createTime'">
+          <!-- 创建时间 -->
+          <template v-if="column.dataIndex === 'createTime'">
             <div>{{ formatTime(record.createTime) }}</div>
           </template>
           <!-- 更新时间 -->
@@ -74,7 +77,7 @@
       <div class="pagination">
         <a-pagination
           v-model:current="pageNo"
-          :total="(totalCount/pageSize)*10"
+          :total="(totalCount / pageSize) * 10"
           show-less-items
         />
       </div>
@@ -84,7 +87,7 @@
 <script lang="ts" setup>
 import { reactive, ref, watchEffect } from "vue";
 import { message } from "ant-design-vue";
-import { freeze, userSearch } from "../../utils/interfaces";
+import { freeze, thaw, userSearch } from "../../utils/interfaces";
 import {
   UserOutlined,
   RedditOutlined,
@@ -183,6 +186,35 @@ async function freezeUser(id: number) {
     message.error(data || "系统繁忙,请稍后再试");
   }
 }
+//解冻用户
+async function thawUser(id: number) {
+  const res = await thaw(id);
+  if (res.status == 200 || res.status == 201) {
+    message.success("解冻成功");
+    const res = await userSearch(
+      searchUserData.username,
+      searchUserData.nickName,
+      searchUserData.email,
+      pageNo.value,
+      pageSize.value
+    );
+    const { data } = res.data;
+
+    if (res.status == 200 || res.status == 201) {
+      totalCount.value = data.totalCount;
+      userResult.value = data.users.map((item: UserSearchResult) => {
+        return {
+          key: item.username,
+          ...item,
+        };
+      });
+    } else {
+      message.error(data || "系统繁忙，请稍后再试");
+    }
+  } else {
+    message.error(res.data || "系统繁忙,请稍后再试");
+  }
+}
 let columns = [
   {
     title: "用户名",
@@ -220,5 +252,10 @@ let columns = [
 }
 .pagination {
   margin-top: 20px;
+}
+.ant-table {
+  a {
+    margin-left: 15px;
+  }
 }
 </style>

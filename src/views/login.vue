@@ -43,13 +43,6 @@
         </a-form-item>
 
         <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
-          <div class="link">
-            <router-link to="/register">创建账号</router-link>
-            <router-link to="update_password">忘记密码</router-link>
-          </div>
-        </a-form-item>
-
-        <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
           <a-button type="primary" html-type="submit" style="width: 100px"
             >登录</a-button
           >

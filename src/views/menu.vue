@@ -33,25 +33,25 @@ const state = reactive({
 });
 const items = reactive([
   {
-    key: "1",
+    key: "0",
     icon: () => h(PieChartOutlined),
     label: "会议室管理",
     title: "会议室管理",
   },
   {
-    key: "2",
+    key: "1",
     icon: () => h(DesktopOutlined),
     label: "预订管理",
     title: "预订管理",
   },
   {
-    key: "3",
+    key: "2",
     icon: () => h(InboxOutlined),
     label: "用户管理",
     title: "用户管理",
   },
   {
-    key: "4",
+    key: "3",
     icon: () => h(InboxOutlined),
     label: "统计",
     title: "统计",
@@ -70,29 +70,29 @@ const changeRoute = (e:any)=>{
   //切换选中高亮
   state.selectedKeys[0] = e.key
   switch(e.key){
-    case '1':
+    case '0':
       $router.push('/meeting_room_manage')
       break
-    case '2':
+    case '1':
       $router.push('/booking_manage')
       break
-    case '3':
+    case '2':
       $router.push('/user_manage')
       break
-    case '4':
+    case '3':
       $router.push('/statistics')
       break
   }
 }
 watchEffect(() => {
   if($route.path == '/meeting_room_manage'){
-    state.selectedKeys = ['1']
+    state.selectedKeys = ['0']
   }else if($route.path == '/booking_manage'){
-    state.selectedKeys = ['2']
+    state.selectedKeys = ['1']
   }else if($route.path == '/user_manage'){
-    state.selectedKeys = ['3']
+    state.selectedKeys = ['2']
   }else if($route.path == '/statistics'){
-    state.selectedKeys = ['4']
+    state.selectedKeys = ['3']
   }
 });
 </script>

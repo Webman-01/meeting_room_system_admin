@@ -30,13 +30,13 @@ const state = reactive({
 });
 const items = reactive([
   {
-    key: "1",
+    key: "0",
     icon: () => h(PieChartOutlined),
     label: "信息修改",
     title: "信息修改",
   },
   {
-    key: "2",
+    key: "1",
     icon: () => h(DesktopOutlined),
     label: "密码修改",
     title: "密码修改",

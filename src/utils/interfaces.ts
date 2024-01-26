@@ -1,8 +1,6 @@
 import type { CreateMeetingRoom } from "@/types/meetingRoom.types";
 import type { UserInfo, UpdatePassword } from "@/types/user.types";
-import type {
-  SearchBookingData,
-} from "@/views/manage/bookingManage.vue";
+import type { SearchBookingData } from "@/views/manage/bookingManage.vue";
 import { message } from "ant-design-vue";
 import axios, { type AxiosRequestConfig } from "axios";
 import dayjs from "dayjs";
@@ -109,6 +107,14 @@ export async function freeze(id: number) {
     },
   });
 }
+//解冻用户
+export async function thaw(id: number) {
+  return await axiosInstance.get("/user/thaw", {
+    params: {
+      id,
+    },
+  });
+}
 //修改用户信息部分
 export async function getUserInfo() {
   return await axiosInstance.get("/user/info");
@@ -172,15 +178,17 @@ export async function bookingList(
 ) {
   let bookingTimeRangeStart;
   let bookingTimeRangeEnd;
-  if(searchBooking.rangeStartTime){
-    bookingTimeRangeStart = dayjs(dayjs(searchBooking.rangeStartTime).format('YYYY-MM-DD HH:mm:ss')).valueOf()
+  if (searchBooking.rangeStartTime) {
+    bookingTimeRangeStart = dayjs(
+      dayjs(searchBooking.rangeStartTime).format("YYYY-MM-DD HH:mm:ss")
+    ).valueOf();
   }
-  if(searchBooking.rangeEndTime){
-    bookingTimeRangeEnd = dayjs(dayjs(searchBooking.rangeEndTime).format('YYYY-MM-DD HH:mm:ss')).valueOf()
+  if (searchBooking.rangeEndTime) {
+    bookingTimeRangeEnd = dayjs(
+      dayjs(searchBooking.rangeEndTime).format("YYYY-MM-DD HH:mm:ss")
+    ).valueOf();
   }
 
-  
-  
   return await axiosInstance.get("/booking/list", {
     params: {
       username: searchBooking.username,
@@ -188,34 +196,34 @@ export async function bookingList(
       meetingRoomPosition: searchBooking.meetingRoomPosition,
       bookingTimeRangeStart,
       bookingTimeRangeEnd,
-      pageNo:pageNo,
-      pageSize:pageSize
+      pageNo: pageNo,
+      pageSize: pageSize,
     },
   });
 }
-export async function apply(id:number){
-  return await axiosInstance.get('/booking/apply/'+id)
+export async function apply(id: number) {
+  return await axiosInstance.get("/booking/apply/" + id);
 }
-export async function reject(id:number){
-  return await axiosInstance.get('/booking/reject/'+id)
+export async function reject(id: number) {
+  return await axiosInstance.get("/booking/reject/" + id);
 }
-export async function unbind(id:number){
-  return await axiosInstance.get('/booking/unbind/'+id)
+export async function unbind(id: number) {
+  return await axiosInstance.get("/booking/unbind/" + id);
 }
 //统计管理模块
-export async function meetingRoomUsedCount(startTime:string,endTime:string){
-  return await axiosInstance.get('/statistic/meetingRoomUsedCount',{
-    params:{
+export async function meetingRoomUsedCount(startTime: string, endTime: string) {
+  return await axiosInstance.get("/statistic/meetingRoomUsedCount", {
+    params: {
       startTime,
-      endTime
-    }
-  })
+      endTime,
+    },
+  });
 }
-export async function userBookingCount(startTime:string,endTime:string){
-  return await axiosInstance.get('/statistic/userBookingCount',{
-    params:{
+export async function userBookingCount(startTime: string, endTime: string) {
+  return await axiosInstance.get("/statistic/userBookingCount", {
+    params: {
       startTime,
-      endTime
-    }
-  })
+      endTime,
+    },
+  });
 }
