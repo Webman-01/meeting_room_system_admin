@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- 搜索栏 -->
-    <a-config-provider :locale="locale">
       <div class="top">
         <a-form
           :model="statisticData"
@@ -43,21 +42,15 @@
         <!-- 会议室图表 -->
         <div id="chartMeetingRoom">会议室预订图表</div>
       </div>
-    </a-config-provider>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { SelectProps } from "ant-design-vue";
 import { reactive, ref, watchEffect } from "vue";
-import zhCN from "ant-design-vue/es/locale/zh_CN";
-import "dayjs/locale/zh-cn";
 import dayjs from "dayjs";
 import * as echarts from "echarts";
 import { meetingRoomUsedCount, userBookingCount } from "../../utils/interfaces";
-//中文化
-const locale = ref(zhCN);
-dayjs.locale("zh-cn");
 //图表选项框的选项
 const options = ref<SelectProps["options"]>([
   {

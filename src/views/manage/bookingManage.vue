@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-config-provider :locale="locale">
+    
       <!-- 搜索栏 -->
       <div class="top">
         <a-form
@@ -150,7 +150,6 @@
           />
         </div>
       </div>
-    </a-config-provider>
   </div>
 </template>
 <script lang="ts" setup>
@@ -158,8 +157,6 @@ import moment from "moment";
 import { reactive, ref, watchEffect } from "vue";
 import { message } from "ant-design-vue";
 import { apply, bookingList, reject, unbind } from "../../utils/interfaces";
-import zhCN from "ant-design-vue/es/locale/zh_CN";
-import "dayjs/locale/zh-cn";
 import {
   EditOutlined,
   TeamOutlined,
@@ -169,9 +166,6 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 import type { UserSearchResult } from "./userMange.vue";
 import type { MeetingRoomSearchResult } from "./meetingRoomManage.vue";
-//中文化
-const locale = ref(zhCN);
-dayjs.locale("zh-cn");
 const disabledDate = (current: Dayjs) => {
   //禁用今天之前的日期
   return current && current < dayjs().startOf("day");

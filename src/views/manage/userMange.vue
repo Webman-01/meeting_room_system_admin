@@ -139,7 +139,6 @@ watchEffect(async () => {
     pageSize.value
   );
   const { data } = res.data;
-  console.log(data);
 
   if (res.status == 200 || res.status == 201) {
     totalCount.value = data.totalCount;

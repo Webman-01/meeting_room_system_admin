@@ -198,7 +198,6 @@ const getMeetingRoomList = async () => {
     pageSize.value
   );
   const { data } = res.data;
-  console.log(data);
 
   if (res.status == 200 || res.status == 201) {
     totalCount.value = data.totalCount;
@@ -219,7 +218,6 @@ const getMeetingRoomList = async () => {
 watchEffect(async () => {
   //调用接口函数获取页面信息
   getMeetingRoomList();
-  console.log(meetingRoomResult, "datasource");
 });
 //删除会议室操作
 const deleteHandler = async (id: number) => {
@@ -236,7 +234,6 @@ const removeMeetingRoom = () => {
 };
 //点击删除弹出气泡框中的操作
 const confirm = (id: number) => {
-  console.log(id);
 
   deleteHandler(id);
   message.success("删除成功");
