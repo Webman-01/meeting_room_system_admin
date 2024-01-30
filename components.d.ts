@@ -15,6 +15,8 @@ declare module 'vue' {
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ADropdown: typeof import('ant-design-vue/es')['Dropdown']
     AFlex: typeof import('ant-design-vue/es')['Flex']
+    AFloatButton: typeof import('ant-design-vue/es')['FloatButton']
+    AFloatButtonGroup: typeof import('ant-design-vue/es')['FloatButtonGroup']
     AForm: typeof import('ant-design-vue/es')['Form']
     AFormItem: typeof import('ant-design-vue/es')['FormItem']
     AImage: typeof import('ant-design-vue/es')['Image']
@@ -23,6 +25,7 @@ declare module 'vue' {
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     AModal: typeof import('ant-design-vue/es')['Modal']
+    APageHeader: typeof import('ant-design-vue/es')['PageHeader']
     APagination: typeof import('ant-design-vue/es')['Pagination']
     APopconfirm: typeof import('ant-design-vue/es')['Popconfirm']
     APopover: typeof import('ant-design-vue/es')['Popover']
@@ -35,5 +38,6 @@ declare module 'vue' {
     Echarts: typeof import('./src/components/echarts.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Seeting: typeof import('./src/components/seeting.vue')['default']
   }
 }

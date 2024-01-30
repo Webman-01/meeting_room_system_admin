@@ -3,7 +3,7 @@
     <div class="header">
       <!-- 顶部导航栏左侧的字 -->
       <router-link to="/">
-        <h1>会议室预订系统-后台管理</h1>
+        <h1 :style="{color:themeColor.themeColor}">会议室预订系统-后台管理</h1>
       </router-link>
       <!-- 顶部导航栏右侧头像 -->
       <router-link to="/userMenu/info_modify">
@@ -17,12 +17,15 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useThemeStore } from '@/stores/themeToggle';
+
 //获取图片静态路径
 function getImageUrl() {
   const avatarInfo = JSON.parse(localStorage.getItem("user_info") as string);
   const avatar = avatarInfo.avatar;
   return "http://localhost:3000/" + avatar;
 }
+const themeColor = useThemeStore()
 </script>
 
 <style lang="scss" scoped>
@@ -39,7 +42,6 @@ function getImageUrl() {
     border-bottom: 1px solid #e6e8eb;
     h1 {
       text-decoration: none;
-      color: #000;
     }
     a {
       text-decoration: none;
