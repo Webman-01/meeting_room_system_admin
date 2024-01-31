@@ -2,13 +2,24 @@
   <div class="layout">
     <div class="header">
       <!-- 顶部导航栏左侧的字 -->
-      <router-link to="/">
-        <h1 :style="{color:themeColor.themeColor}">会议室预订系统-后台管理</h1>
+      <router-link to="/meeting_room_manage">
+        <h1 :style="{ color: themeColor.themeColor }">
+          会议室预订系统-后台管理
+        </h1>
       </router-link>
       <!-- 顶部导航栏右侧头像 -->
       <router-link to="/userMenu/info_modify">
         <!-- 头像组件 -->
-        <a-avatar class="icon" :src="getImageUrl()" :size="50"> </a-avatar>
+        <a-dropdown placement="bottom">
+          <a-avatar class="icon" :src="getImageUrl()" :size="50"> </a-avatar>
+          <template #overlay>
+            <a-menu>
+              <a-menu-item>
+                <a href="javascript:;" @click="logout">退出登录</a>
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
       </router-link>
     </div>
     <div class="body">
@@ -17,7 +28,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/themeToggle';
+import { useThemeStore } from "@/stores/themeToggle";
+import { message } from "ant-design-vue";
+import { useRouter } from "vue-router";
 
 //获取图片静态路径
 function getImageUrl() {
@@ -25,7 +38,15 @@ function getImageUrl() {
   const avatar = avatarInfo.avatar;
   return "http://localhost:3000/" + avatar;
 }
-const themeColor = useThemeStore()
+const themeColor = useThemeStore();
+const router = useRouter();
+//登出
+const logout = () => {
+  message.success("退出登录成功");
+  //清空所有本地数据
+  localStorage.clear();
+  router.push("/login");
+};
 </script>
 
 <style lang="scss" scoped>

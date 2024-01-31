@@ -24,9 +24,9 @@ import { PieChartOutlined, DesktopOutlined } from "@ant-design/icons-vue";
 import { useRoute, useRouter } from "vue-router";
 const state = reactive({
   collapsed: false,
-  selectedKeys: ["1"],
-  openKeys: ["sub1"],
-  preOpenKeys: ["sub1"],
+  selectedKeys: ["0"],
+  openKeys: ["sub0"],
+  preOpenKeys: ["sub0"],
 });
 const items = reactive([
   {
@@ -52,14 +52,13 @@ const $router = useRouter();
 const $route = useRoute();
 //挂载后根据路由来渲染选中的是菜单栏中哪个
 watchEffect(() => {
-  state.selectedKeys = $route.path == "/userMenu/info_modify" ? ["1"] : ["2"];
+  state.selectedKeys = $route.path == "/userMenu/info_modify" ? ["0"] : ["1"];
 });
 //点击左边栏跳转路由
 const changeRoute = (e: any) => {
   //获取事件对象
-  console.log(e);
   state.selectedKeys[0] = e.key;
-  if (e.key == "1") {
+  if (e.key == "0") {
     $router.push("/userMenu/info_modify");
   } else {
     $router.push("/userMenu/password_modify");

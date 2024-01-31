@@ -27,9 +27,9 @@ import {
 import { useRoute, useRouter } from "vue-router";
 const state = reactive({
   collapsed: false,
-  selectedKeys: ["1"],
-  openKeys: ["sub1"],
-  preOpenKeys: ["sub1"],
+  selectedKeys: ["0"],
+  openKeys: ["sub0"],
+  preOpenKeys: ["sub0"],
 });
 const items = reactive([
   {

@@ -115,7 +115,7 @@ watchEffect(async () => {
   try {
     const res = await getUserInfo();
     const { data } = res.data;
-    console.log(data, "userInfo");
+    // console.log(data, "userInfo");
     //判断响应码是否正确
     if (res.status == 200 || res.status == 201) {
       formState.avatar = data.avatar;
