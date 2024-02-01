@@ -1,52 +1,52 @@
 <template>
   <div>
     <!-- 搜索栏 -->
-      <div class="top">
-        <a-form
-          :model="statisticData"
-          name="search"
-          layout="inline"
-          autocomplete="off"
-          :label-col="{ span: 8 }"
-          :wrapper-col="{ span: 16 }"
-        >
-          <!-- eslint-disable vue/no-v-model-argument -->
-          <a-form-item label="开始日期" name="startTime">
-            <a-date-picker
-              placeholder="请选择日期"
-              v-model:value="statisticData.rangeStartTime"
-            />
-          </a-form-item>
+    <div class="top">
+      <a-form
+        :model="statisticData"
+        name="search"
+        layout="inline"
+        autocomplete="off"
+        :label-col="{ span: 8 }"
+        :wrapper-col="{ span: 16 }"
+      >
+        <!-- eslint-disable vue/no-v-model-argument -->
+        <a-form-item label="开始日期" name="startTime">
+          <a-date-picker
+            placeholder="请选择日期"
+            v-model:value="statisticData.rangeStartTime"
+          />
+        </a-form-item>
 
-          <a-form-item label="结束日期" name="endTime">
-            <a-date-picker
-              placeholder="请选择日期"
-              v-model:value="statisticData.rangeEndTime"
-            />
-          </a-form-item>
-          <a-form-item class="last-item" label="图表类型">
-            <a-select
-              v-model:value="type"
-              label-in-value
-              style="width: 150px"
-              :options="options"
-              @change="handleChange"
-            ></a-select>
-          </a-form-item>
-        </a-form>
-      </div>
-      <!-- 图表 -->
-      <div class="chart">
-        <!-- 用户图表 -->
-        <div id="chartUser">用户预订图表</div>
-        <!-- 会议室图表 -->
-        <div id="chartMeetingRoom">会议室预订图表</div>
-      </div>
+        <a-form-item label="结束日期" name="endTime">
+          <a-date-picker
+            placeholder="请选择日期"
+            v-model:value="statisticData.rangeEndTime"
+          />
+        </a-form-item>
+        <a-form-item class="last-item" label="图表类型">
+          <a-select
+            v-model:value="type"
+            label-in-value
+            style="width: 150px"
+            :options="options"
+            @change="handleChange"
+          ></a-select>
+        </a-form-item>
+      </a-form>
+    </div>
+    <!-- 图表 -->
+    <div class="chart">
+      <!-- 用户图表 -->
+      <div id="chartUser">用户预订图表</div>
+      <!-- 会议室图表 -->
+      <div id="chartMeetingRoom">会议室预订图表</div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { SelectProps } from "ant-design-vue";
+import { message, type SelectProps } from "ant-design-vue";
 import { reactive, ref, watchEffect } from "vue";
 import dayjs from "dayjs";
 import * as echarts from "echarts";
@@ -96,6 +96,11 @@ const getStatisticData = async (
     statisticData.rangeEndTime == null
   )
     return;
+  //结束时间<开始时间不发请求
+  if (statisticData.rangeStartTime > statisticData.rangeEndTime) {
+    message.error("开始时间不能晚于结束时间");
+    return;
+  }
   const resUser = await userBookingCount(startTime, endTime);
   const { data } = resUser.data;
   if (resUser.status == 200 || resUser.status == 201) {

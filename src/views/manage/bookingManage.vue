@@ -1,155 +1,153 @@
 <template>
   <div>
-    
-      <!-- 搜索栏 -->
-      <div class="top">
-        <a-form
-          :model="searchBookingData"
-          name="search"
-          layout="inline"
-          autocomplete="off"
-          :label-col="{ span: 8 }"
-          :wrapper-col="{ span: 16 }"
-        >
-          <a-form-item label="会议室名称" name="name">
-            <!-- eslint-disable vue/no-v-model-argument -->
-            <a-input v-model:value="searchBookingData.meetingRoomName">
-              <template #prefix>
-                <HomeOutlined class="site-form-item-icon" />
-              </template>
-            </a-input>
-          </a-form-item>
+    <!-- 搜索栏 -->
+    <div class="top">
+      <a-form
+        :model="searchBookingData"
+        name="search"
+        layout="inline"
+        autocomplete="off"
+        :label-col="{ span: 8 }"
+        :wrapper-col="{ span: 16 }"
+      >
+        <a-form-item label="会议室名称" name="name">
+          <!-- eslint-disable vue/no-v-model-argument -->
+          <a-input v-model:value="searchBookingData.meetingRoomName">
+            <template #prefix>
+              <HomeOutlined class="site-form-item-icon" />
+            </template>
+          </a-input>
+        </a-form-item>
 
-          <a-form-item label="会议室位置" name="location">
-            <!-- eslint-disable vue/no-v-model-argument -->
-            <a-input v-model:value="searchBookingData.meetingRoomPosition">
-              <template #prefix>
-                <TeamOutlined class="site-form-item-icon" />
-              </template>
-            </a-input>
-          </a-form-item>
+        <a-form-item label="会议室位置" name="location">
+          <!-- eslint-disable vue/no-v-model-argument -->
+          <a-input v-model:value="searchBookingData.meetingRoomPosition">
+            <template #prefix>
+              <TeamOutlined class="site-form-item-icon" />
+            </template>
+          </a-input>
+        </a-form-item>
 
-          <a-form-item label="预订人" name="user">
-            <a-input v-model:value="searchBookingData.username">
-              <template #prefix>
-                <EditOutlined class="site-form-item-icon" />
-              </template>
-            </a-input>
-          </a-form-item>
+        <a-form-item label="预订人" name="user">
+          <a-input v-model:value="searchBookingData.username">
+            <template #prefix>
+              <EditOutlined class="site-form-item-icon" />
+            </template>
+          </a-input>
+        </a-form-item>
 
-          <a-form-item label="开始时间" name="startTime">
-            <a-date-picker
-              placeholder="请选择"
-              v-model:value="searchBookingData.rangeStartTime"
-              format="YYYY-MM-DD HH:mm:ss"
-              :disabled-date="disabledDate"
-              :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
-            />
-          </a-form-item>
+        <a-form-item label="开始时间" name="startTime">
+          <a-date-picker
+            placeholder="请选择"
+            v-model:value="searchBookingData.rangeStartTime"
+            format="YYYY-MM-DD HH:mm:ss"
+            :disabled-date="disabledDate"
+            :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
+          />
+        </a-form-item>
 
-          <a-form-item label="结束时间" name="endTime">
-            <a-date-picker
-              placeholder="请选择"
-              v-model:value="searchBookingData.rangeEndTime"
-              format="YYYY-MM-DD HH:mm:ss"
-              :disabled-date="disabledDate"
-              :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
-            />
-          </a-form-item>
-          <a-form-item class="last-item">
-            <div class="else">
-              <a-button type="primary">重置</a-button>
-              <UpOutlined style="color: blue; margin-left: 15px" />
-            </div>
-          </a-form-item>
-        </a-form>
-      </div>
-      <!-- 会议室列表 -->
-      <div>
-        <a-table
-          :columns="columns"
-          :data-source="bookingResult"
-          :pagination="false"
-        >
-          <template v-slot:bodyCell="{ column, record }">
-            <!-- 会议室名称 -->
-            <template v-if="column.dataIndex === 'name'">
-              <div>{{ record.room.name }}</div>
+        <a-form-item label="结束时间" name="endTime">
+          <a-date-picker
+            placeholder="请选择"
+            v-model:value="searchBookingData.rangeEndTime"
+            format="YYYY-MM-DD HH:mm:ss"
+            :disabled-date="disabledDate"
+            :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
+          />
+        </a-form-item>
+        <a-form-item class="last-item">
+          <div class="else">
+            <a-button type="primary" @click="reset">重置</a-button>
+          </div>
+        </a-form-item>
+      </a-form>
+    </div>
+    <!-- 会议室列表 -->
+    <div>
+      <a-table
+        :columns="columns"
+        :data-source="bookingResult"
+        :pagination="false"
+      >
+        <template v-slot:bodyCell="{ column, record }">
+          <!-- 会议室名称 -->
+          <template v-if="column.dataIndex === 'name'">
+            <div>{{ record.room.name }}</div>
+          </template>
+          <!-- 会议室位置 -->
+          <template v-if="column.dataIndex === 'location'">
+            <div>{{ record.room.location }}</div>
+          </template>
+          <!-- 预订人 -->
+          <template v-if="column.dataIndex === 'user'">
+            <div>{{ record.user.username }}</div>
+          </template>
+          <!-- 审批状态 -->
+          <template v-if="column.dataIndex === 'status'">
+            <a-tag :color="changeColor(record.status)">{{
+              record.status
+            }}</a-tag>
+          </template>
+          <!-- 开始时间 -->
+          <template v-if="column.dataIndex === 'startTime'">
+            <div>{{ formatTime(record.startTime) }}</div>
+          </template>
+          <!-- 结束时间 -->
+          <template v-if="column.dataIndex === 'endTime'">
+            <div>{{ formatTime(record.endTime) }}</div>
+          </template>
+          <!-- 预订时间 -->
+          <template v-if="column.dataIndex === 'createTime'">
+            <div>{{ formatTime(record.createTime) }}</div>
+            <!-- 备注 -->
+            <template v-if="column.dataIndex === 'note'">
+              <div>{{ record.note }}</div>
             </template>
-            <!-- 会议室位置 -->
-            <template v-if="column.dataIndex === 'location'">
-              <div>{{ record.room.location }}</div>
-            </template>
-            <!-- 预订人 -->
-            <template v-if="column.dataIndex === 'user'">
-              <div>{{ record.user.username }}</div>
-            </template>
-            <!-- 审批状态 -->
-            <template v-if="column.dataIndex === 'status'">
-              <a-tag :color="changeColor(record.status)">{{
-                record.status
-              }}</a-tag>
-            </template>
-            <!-- 开始时间 -->
-            <template v-if="column.dataIndex === 'startTime'">
-              <div>{{ formatTime(record.startTime) }}</div>
-            </template>
-            <!-- 结束时间 -->
-            <template v-if="column.dataIndex === 'endTime'">
-              <div>{{ formatTime(record.endTime) }}</div>
-            </template>
-            <!-- 预订时间 -->
-            <template v-if="column.dataIndex === 'createTime'">
-              <div>{{ formatTime(record.createTime) }}</div>
-              <!-- 备注 -->
-              <template v-if="column.dataIndex === 'note'">
-                <div>{{ record.note }}</div>
-              </template>
-              <!-- 描述 -->
-              <template v-if="column.dataIndex === 'description'">
-                <div>{{ record.room.description }}</div>
-              </template>
-            </template>
-            <!-- 操作 -->
-            <template v-else-if="column.dataIndex === 'operate'">
-              <a-popconfirm
-                title="确认通过吗?"
-                ok-text="确定"
-                cancel-text="取消"
-                @confirm="confirm(record.id, 'apply')"
-                @cancel="cancel"
-              >
-                <a-tag color="success">通过</a-tag>
-              </a-popconfirm>
-              <a-popconfirm
-                title="确认要驳回吗?"
-                ok-text="确定"
-                cancel-text="取消"
-                @confirm="confirm(record.id, 'reject')"
-                @cancel="cancel"
-              >
-                <a-tag color="processing">驳回</a-tag>
-              </a-popconfirm>
-              <a-popconfirm
-                title="确认解除吗?"
-                ok-text="确定"
-                cancel-text="取消"
-                @confirm="confirm(record.id, 'unbind')"
-                @cancel="cancel"
-              >
-                <a-tag color="error">解除</a-tag>
-              </a-popconfirm>
+            <!-- 描述 -->
+            <template v-if="column.dataIndex === 'description'">
+              <div>{{ record.room.description }}</div>
             </template>
           </template>
-        </a-table>
-        <div class="pagination">
-          <a-pagination
-            v-model:current="pageNo"
-            :total="(totalCount / pageSize) * 10"
-            show-less-items
-          />
-        </div>
+          <!-- 操作 -->
+          <template v-else-if="column.dataIndex === 'operate'">
+            <a-popconfirm
+              title="确认通过吗?"
+              ok-text="确定"
+              cancel-text="取消"
+              @confirm="confirm(record.id, 'apply')"
+              @cancel="cancel"
+            >
+              <a-tag color="success">通过</a-tag>
+            </a-popconfirm>
+            <a-popconfirm
+              title="确认要驳回吗?"
+              ok-text="确定"
+              cancel-text="取消"
+              @confirm="confirm(record.id, 'reject')"
+              @cancel="cancel"
+            >
+              <a-tag color="processing">驳回</a-tag>
+            </a-popconfirm>
+            <a-popconfirm
+              title="确认解除吗?"
+              ok-text="确定"
+              cancel-text="取消"
+              @confirm="confirm(record.id, 'unbind')"
+              @cancel="cancel"
+            >
+              <a-tag color="error">解除</a-tag>
+            </a-popconfirm>
+          </template>
+        </template>
+      </a-table>
+      <div class="pagination">
+        <a-pagination
+          v-model:current="pageNo"
+          :total="(totalCount / pageSize) * 10"
+          show-less-items
+        />
       </div>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -161,7 +159,6 @@ import {
   EditOutlined,
   TeamOutlined,
   HomeOutlined,
-  UpOutlined,
 } from "@ant-design/icons-vue";
 import dayjs, { Dayjs } from "dayjs";
 import type { UserSearchResult } from "./userMange.vue";
@@ -210,6 +207,12 @@ interface BookingSearchResult {
 }
 //调用接口获取预订列表
 const getBookingList = async () => {
+  if(searchBookingData.rangeEndTime && searchBookingData.rangeStartTime){
+    if(searchBookingData.rangeEndTime < searchBookingData.rangeStartTime){
+      message.error('开始时间不能晚于结束时间')
+      return
+    }
+  }
   const res = await bookingList(
     searchBookingData,
     pageNo.value,
@@ -242,7 +245,6 @@ function formatTime(date: Date) {
 }
 //操作部分弹出框
 const confirm = async (id: number, status: "apply" | "reject" | "unbind") => {
-
   if (status == "apply") {
     const res = await apply(id);
     if (res.status == 200 || res.status == 201) {
@@ -268,7 +270,14 @@ const confirm = async (id: number, status: "apply" | "reject" | "unbind") => {
   //操作之后再次发起请求获取最新的页面数据展示
   getBookingList();
 };
-
+//重制功能
+const reset = () => {
+  searchBookingData.username = ''
+  searchBookingData.meetingRoomName = ''
+  searchBookingData.meetingRoomPosition = ''
+  searchBookingData.rangeStartTime = undefined,
+  searchBookingData.rangeEndTime = undefined
+}
 const cancel = () => {
   message.warning("取消操作");
 };
@@ -366,9 +375,9 @@ let columns = [
 .ant-table {
   .ant-table-content {
     .ant-table-row {
-    .ant-tag{
-      margin-bottom: 5px;
-    }
+      .ant-tag {
+        margin-bottom: 5px;
+      }
       .ant-tag-red {
         cursor: pointer;
       }
