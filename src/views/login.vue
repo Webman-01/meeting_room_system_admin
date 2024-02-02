@@ -9,7 +9,9 @@
       "
       :hoverable="true"
     >
-      <h1 class="title" :style="{ color: themeColor.themeColor }">会议室预订系统</h1>
+      <h1 class="title" :style="{ color: themeColor.themeColor }">
+        会议室预订系统
+      </h1>
       <a-form
         :model="formState"
         :colon="false"
@@ -49,6 +51,7 @@
         </a-form-item>
       </a-form>
     </a-card>
+    <Special class="special"/>
   </div>
 </template>
 
@@ -59,6 +62,7 @@ import { useRouter } from "vue-router";
 //@ts-ignore
 import { login } from "../utils/interfaces";
 import { useThemeStore } from "@/stores/themeToggle";
+import Special from "../components/Special.vue";
 
 let $router = useRouter();
 
@@ -101,7 +105,7 @@ const changeUsername = (requireString: string) => {
 const changePassword = (requireString: string) => {
   passwordFlag.value = requireString.trim() === "";
 };
-const themeColor = useThemeStore()
+const themeColor = useThemeStore();
 </script>
 
 <style lang="scss" scoped>
@@ -121,4 +125,11 @@ const themeColor = useThemeStore()
   color: black;
   margin-bottom: 50px;
 }
+.special{
+  z-index: -1;
+  position: fixed;
+  left: 0px;
+  top: 50px;
+}
+
 </style>

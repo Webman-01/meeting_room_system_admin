@@ -1,4 +1,12 @@
 <template>
+   <a-config-provider
+      :locale="locale"
+      :theme="{
+        algorithm: themeColor.themeData,
+        token:{colorPrimary: themeColor.themeCss}
+      }"
+    >
+      <Setting />
   <div class="layout">
     <div class="header">
       <!-- 顶部导航栏左侧的字 -->
@@ -26,11 +34,20 @@
       <router-view></router-view>
     </div>
   </div>
+</a-config-provider>
 </template>
 <script setup lang="ts">
 import { useThemeStore } from "@/stores/themeToggle";
 import { message } from "ant-design-vue";
 import { useRouter } from "vue-router";
+import dayjs from "dayjs";
+import zhCN from "ant-design-vue/es/locale/zh_CN";
+import "dayjs/locale/zh-cn";
+import { ref } from "vue";
+
+//中文化
+const locale = ref(zhCN);
+dayjs.locale("zh-cn");
 
 //获取图片静态路径
 function getImageUrl() {

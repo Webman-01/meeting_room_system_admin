@@ -36,10 +36,12 @@ declare module 'vue' {
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     Echarts: typeof import('./src/components/echarts.vue')['default']
+    Fire: typeof import('./src/components/Fire.vue')['default']
     Modal: typeof import('./src/components/Modal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Seeting: typeof import('./src/components/seeting.vue')['default']
     Setting: typeof import('./src/components/Setting.vue')['default']
+    Special: typeof import('./src/components/Special.vue')['default']
   }
 }
