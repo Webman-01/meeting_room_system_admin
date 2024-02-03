@@ -108,7 +108,7 @@
         <!-- 预订状态 -->
         <template v-slot:bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'isBooked'">
-            <a-tag color="green">可预定</a-tag>
+            <MeetingRoomBookingModal />
           </template>
           <!-- 创建时间 -->
           <template v-if="column.dataIndex === 'createTime'">
@@ -160,6 +160,8 @@ import {
   TeamOutlined,
   HomeOutlined,
 } from "@ant-design/icons-vue";
+import MeetingRoomBookingModal from "@/components/MeetingRoomBookingModal.vue";
+import Calendar from "@/components/Calendar.vue";
 interface SearchMeetingRoomData {
   name: string;
   capacity: string;
@@ -234,7 +236,6 @@ const removeMeetingRoom = () => {
 };
 //点击删除弹出气泡框中的操作
 const confirm = (id: number) => {
-
   deleteHandler(id);
   message.success("删除成功");
 };
@@ -275,18 +276,18 @@ const onFinishFailed = (errorInfo: any) => {
 //点击展开modal框
 const showModal = (id: number) => {
   createOpen.value = true;
-  if (typeof(id)=='number') {
+  if (typeof id == "number") {
     createMeetingRoomData.id = id;
-  }else{
+  } else {
     //如果点的是添加会议室就把id置为undefined
-    createMeetingRoomData.id = undefined
+    createMeetingRoomData.id = undefined;
   }
 };
 //弹出框点击确定的回调
 const handleOk = async () => {
-  if ((typeof createMeetingRoomData.id) == "number") {
+  if (typeof createMeetingRoomData.id == "number") {
     const res = await updateMeetingRoom(createMeetingRoomData);
-    
+
     if (res.status == 200 || res.status == 201) {
       getMeetingRoomList();
       message.success("更新成功");
@@ -295,7 +296,7 @@ const handleOk = async () => {
     }
   } else {
     const res = await createMeetingRoom(createMeetingRoomData);
-    
+
     if (res.status == 200 || res.status == 201) {
       getMeetingRoomList();
       message.success("创建成功");
@@ -347,7 +348,7 @@ let columns = [
     dataIndex: "updateTime",
   },
   {
-    title: "预订状态",
+    title: "预订详情",
     dataIndex: "isBooked",
   },
   {
