@@ -9,17 +9,21 @@
       wrap-class-name="full-modal"
       @ok="handleOk"
     >
-      <Calendar />
+      <Calendar v-bind="$attrs"/>
     </a-modal>
   </div>
 </template>
 <script lang="ts" setup>
+import { useBookingStore } from "@/stores/booking";
 import Calendar from "./Calendar.vue";
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 const open = ref<boolean>(false);
 
+const attrs = useAttrs();
+const getBookingSituation = useBookingStore()
 const showModal = () => {
   open.value = true;
+  getBookingSituation.getList(attrs.meetingRoomNameFirst as string)  
 };
 
 const handleOk = (e: MouseEvent) => {

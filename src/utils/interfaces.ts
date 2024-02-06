@@ -169,6 +169,14 @@ export async function updateMeetingRoom(meetingRoom: CreateMeetingRoom) {
 export async function findMeetingRoom(id: number) {
   return await axiosInstance.get("/meeting-room/find" + id);
 }
+//根据会议室名称获取预订情况
+export async function getBookingByMeetingRoomName(meetingRoomName: string) {
+  return await axiosInstance.get("/booking/list", {
+    params: {
+      meetingRoomName,
+    },
+  });
+}
 
 //预订管理模块
 export async function bookingList(

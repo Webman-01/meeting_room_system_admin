@@ -108,11 +108,11 @@
         <!-- 预订状态 -->
         <template v-slot:bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'isBooked'">
-            <MeetingRoomBookingModal />
+            <MeetingRoomBookingModal :meetingRoomNameFirst="record.name"/>
           </template>
           <!-- 创建时间 -->
           <template v-if="column.dataIndex === 'createTime'">
-            <div>{{ formatTime(record.createTime) }}</div>
+            <div >{{ formatTime(record.createTime) }}</div>
           </template>
           <!-- 更新时间 -->
           <template v-if="column.dataIndex === 'updateTime'">
@@ -161,7 +161,6 @@ import {
   HomeOutlined,
 } from "@ant-design/icons-vue";
 import MeetingRoomBookingModal from "@/components/MeetingRoomBookingModal.vue";
-import Calendar from "@/components/Calendar.vue";
 interface SearchMeetingRoomData {
   name: string;
   capacity: string;
