@@ -105,14 +105,14 @@
         :data-source="meetingRoomResult"
         :pagination="false"
       >
-        <!-- 预订状态 -->
         <template v-slot:bodyCell="{ column, record }">
+          <!-- 预订详情 -->
           <template v-if="column.dataIndex === 'isBooked'">
-            <MeetingRoomBookingModal :meetingRoomNameFirst="record.name"/>
+            <MeetingRoomBookingModal :meetingRoomNameFirst="record.name" />
           </template>
           <!-- 创建时间 -->
           <template v-if="column.dataIndex === 'createTime'">
-            <div >{{ formatTime(record.createTime) }}</div>
+            <div>{{ formatTime(record.createTime) }}</div>
           </template>
           <!-- 更新时间 -->
           <template v-if="column.dataIndex === 'updateTime'">

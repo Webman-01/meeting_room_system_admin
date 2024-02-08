@@ -63,6 +63,7 @@ import { useRouter } from "vue-router";
 import { login } from "../utils/interfaces";
 import { useThemeStore } from "@/stores/themeToggle";
 import Special from "../components/Special.vue";
+import { useAvatarInfoStore } from "@/stores/avatarInfo";
 
 let $router = useRouter();
 
@@ -70,7 +71,8 @@ interface FormState {
   username: string;
   password: string;
 }
-
+//用户仓库中数据
+const userInfo = useAvatarInfoStore()
 const formState = reactive<FormState>({
   username: "",
   password: "",
@@ -79,6 +81,8 @@ const onFinish = async (values: FormState) => {
   const res = await login(values.username, values.password);
 
   const { code, message: msg, data } = res.data;
+  console.log(data,'data');
+  
   if (res.status == 201 || res.status == 200) {
     message.success("登录成功");
     //登录成功跳到首页
@@ -88,6 +92,7 @@ const onFinish = async (values: FormState) => {
     localStorage.setItem("access_token", data.accessToken);
     localStorage.setItem("refresh_token", data.refreshToken);
     localStorage.setItem("user_info", JSON.stringify(data.userInfo));
+
   } else {
     message.error(res.data.data || "系统繁忙,请稍后再试");
   }

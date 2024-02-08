@@ -90,8 +90,11 @@ const onFinish = async (values: UserInfo) => {
   values.avatar = avatarInfo.avatarUrl;
   const res = await updateUserInfo(values);
   const { message: msg, data } = res.data;
+  
   if (res.status == 200 || res.status == 201) {
     message.success("更新用户信息成功");
+    //验证码置空
+    formState.captcha = ''
   } else {
     message.error(data || "系统繁忙,请稍后再试");
   }

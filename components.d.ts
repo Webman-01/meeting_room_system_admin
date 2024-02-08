@@ -36,6 +36,7 @@ declare module 'vue' {
     ATableSummaryCell: typeof import('ant-design-vue/es')['TableSummaryCell']
     ATag: typeof import('ant-design-vue/es')['Tag']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     Calendar: typeof import('./src/components/Calendar.vue')['default']
     Echarts: typeof import('./src/components/echarts.vue')['default']
