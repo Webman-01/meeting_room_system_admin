@@ -147,7 +147,7 @@
 </template>
 <script lang="ts" setup>
 import moment from "moment";
-import { reactive, ref, watchEffect } from "vue";
+import { onMounted, reactive, ref, watch, watchEffect } from "vue";
 import { message } from "ant-design-vue";
 import {
   deleteMeetingRoom,
@@ -161,6 +161,7 @@ import {
   HomeOutlined,
 } from "@ant-design/icons-vue";
 import MeetingRoomBookingModal from "@/components/MeetingRoomBookingModal.vue";
+import { debounce } from "@/utils/debounce_throttle/debounce.ts";
 interface SearchMeetingRoomData {
   name: string;
   capacity: string;
@@ -216,8 +217,15 @@ const getMeetingRoomList = async () => {
   }
 };
 //监视页面信息的变化
-watchEffect(async () => {
-  //调用接口函数获取页面信息
+const getData = debounce(getMeetingRoomList, 300);
+watch(
+  [pageNo, searchMeetingRoomData],
+  () => {
+    getData();
+  },
+  { immediate: true }
+);
+onMounted(() => {
   getMeetingRoomList();
 });
 //删除会议室操作

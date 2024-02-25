@@ -71,8 +71,8 @@ interface FormState {
   username: string;
   password: string;
 }
-//用户仓库中数据
-const userInfo = useAvatarInfoStore()
+
+
 const formState = reactive<FormState>({
   username: "",
   password: "",
@@ -81,7 +81,7 @@ const onFinish = async (values: FormState) => {
   const res = await login(values.username, values.password);
 
   const { code, message: msg, data } = res.data;
-  console.log(data,'data');
+  // console.log(data,'data');
   
   if (res.status == 201 || res.status == 200) {
     message.success("登录成功");

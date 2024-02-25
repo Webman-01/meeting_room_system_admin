@@ -85,7 +85,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref, watchEffect } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { message } from "ant-design-vue";
 import { freeze, thaw, userSearch } from "../../utils/interfaces";
 import {
@@ -94,6 +94,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons-vue";
 import moment from "moment";
+import { debounce } from "@/utils/debounce_throttle/debounce";
 //格式化时间
 function formatTime(date: Date) {
   return moment(date).format("YYYY-MM-DD HH:mm:ss");
@@ -125,11 +126,11 @@ export interface UserSearchResult {
   isFrozen: boolean;
 }
 //获取用户图片路径
-function getImageUrl(fileName: any) {
+function getImageUrl(fileName: string) {
   return "http://localhost:3000/" + fileName;
 }
-//监视页面信息的变化
-watchEffect(async () => {
+//发送请求获取页面数据
+const getUserList = async () => {
   //调用接口函数获取页面信息
   const res = await userSearch(
     searchUserData.username,
@@ -151,6 +152,14 @@ watchEffect(async () => {
   } else {
     message.error(data || "系统繁忙，请稍后再试");
   }
+};
+const getData = debounce(getUserList, 300);
+//监视页面信息的变化
+watch([searchUserData, pageNo], () => {
+  getData();
+});
+onMounted(() => {
+  getUserList();
 });
 
 //冻结用户

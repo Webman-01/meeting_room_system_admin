@@ -41,7 +41,6 @@
             placeholder="请选择"
             v-model:value="searchBookingData.rangeStartTime"
             format="YYYY-MM-DD HH:mm:ss"
-            :disabled-date="disabledDate"
             :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
           />
         </a-form-item>
@@ -51,7 +50,6 @@
             placeholder="请选择"
             v-model:value="searchBookingData.rangeEndTime"
             format="YYYY-MM-DD HH:mm:ss"
-            :disabled-date="disabledDate"
             :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
           />
         </a-form-item>
@@ -152,7 +150,7 @@
 </template>
 <script lang="ts" setup>
 import moment from "moment";
-import { reactive, ref, watchEffect } from "vue";
+import { onMounted, reactive, ref, watch, watchEffect } from "vue";
 import { message } from "ant-design-vue";
 import { apply, bookingList, reject, unbind } from "../../utils/interfaces";
 import {
@@ -163,10 +161,11 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 import type { UserSearchResult } from "./userMange.vue";
 import type { MeetingRoomSearchResult } from "./meetingRoomManage.vue";
-const disabledDate = (current: Dayjs) => {
-  //禁用今天之前的日期
-  return current && current < dayjs().startOf("day");
-};
+import { debounce } from "@/utils/debounce_throttle/debounce";
+// const disabledDate = (current: Dayjs) => {
+//   //禁用今天之前的日期
+//   // return current && current < dayjs().startOf("day");
+// };
 //当传入的status状态不同时展示不同的颜色
 const changeColor = (status: string) => {
   let color;
@@ -207,10 +206,10 @@ interface BookingSearchResult {
 }
 //调用接口获取预订列表
 const getBookingList = async () => {
-  if(searchBookingData.rangeEndTime && searchBookingData.rangeStartTime){
-    if(searchBookingData.rangeEndTime < searchBookingData.rangeStartTime){
-      message.error('开始时间不能晚于结束时间')
-      return
+  if (searchBookingData.rangeEndTime && searchBookingData.rangeStartTime) {
+    if (searchBookingData.rangeEndTime < searchBookingData.rangeStartTime) {
+      message.error("开始时间不能晚于结束时间");
+      return;
     }
   }
   const res = await bookingList(
@@ -234,11 +233,17 @@ const getBookingList = async () => {
   }
 };
 //监视页面信息的变化
-watchEffect(async () => {
-  //调用接口函数获取页面信息
-  getBookingList();
+const getData = debounce(getBookingList, 300);
+watch(
+  [searchBookingData, pageNo],
+  () => {
+    getData();
+  },
+  { immediate: true }
+);
+onMounted(() => {
+  getBookingList()
 });
-
 //格式化时间
 function formatTime(date: Date) {
   return moment(date).format("YYYY-MM-DD HH:mm:ss");
@@ -272,12 +277,12 @@ const confirm = async (id: number, status: "apply" | "reject" | "unbind") => {
 };
 //重制功能
 const reset = () => {
-  searchBookingData.username = ''
-  searchBookingData.meetingRoomName = ''
-  searchBookingData.meetingRoomPosition = ''
-  searchBookingData.rangeStartTime = undefined,
-  searchBookingData.rangeEndTime = undefined
-}
+  searchBookingData.username = "";
+  searchBookingData.meetingRoomName = "";
+  searchBookingData.meetingRoomPosition = "";
+  (searchBookingData.rangeStartTime = undefined),
+    (searchBookingData.rangeEndTime = undefined);
+};
 const cancel = () => {
   message.warning("取消操作");
 };

@@ -4,18 +4,18 @@ import type { SearchBookingData } from "@/views/manage/bookingManage.vue";
 import { message } from "ant-design-vue";
 import axios, { type AxiosRequestConfig } from "axios";
 import dayjs from "dayjs";
-
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/",
   timeout: 3000,
 });
 //refreshToken
-async function refreshToken() {
+export async function refreshToken() {
   const res = await axiosInstance.get("/user/admin/refresh", {
     params: {
       refreshToken: localStorage.getItem("refresh_token"),
     },
   });
+  
   const { data } = res.data;
   localStorage.setItem("access_token", data.access_token || "");
   localStorage.setItem("refresh_token", data.refresh_token || "");
@@ -70,6 +70,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(config);
       } else {
         message.error(res.data);
+        
         setTimeout(() => {
           window.location.href = "/login";
         }, 1500);
