@@ -170,26 +170,7 @@ async function freezeUser(id: number) {
   if (res.status == 200 || res.status == 201) {
     message.success("冻结成功");
     //再次发请求渲染页面
-    const res = await userSearch(
-      searchUserData.username,
-      searchUserData.nickName,
-      searchUserData.email,
-      pageNo.value,
-      pageSize.value
-    );
-    const { data } = res.data;
-
-    if (res.status == 200 || res.status == 201) {
-      totalCount.value = data.totalCount;
-      userResult.value = data.users.map((item: UserSearchResult) => {
-        return {
-          key: item.username,
-          ...item,
-        };
-      });
-    } else {
-      message.error(data || "系统繁忙，请稍后再试");
-    }
+    getUserList();
   } else {
     message.error(data || "系统繁忙,请稍后再试");
   }
@@ -199,26 +180,7 @@ async function thawUser(id: number) {
   const res = await thaw(id);
   if (res.status == 200 || res.status == 201) {
     message.success("解冻成功");
-    const res = await userSearch(
-      searchUserData.username,
-      searchUserData.nickName,
-      searchUserData.email,
-      pageNo.value,
-      pageSize.value
-    );
-    const { data } = res.data;
-
-    if (res.status == 200 || res.status == 201) {
-      totalCount.value = data.totalCount;
-      userResult.value = data.users.map((item: UserSearchResult) => {
-        return {
-          key: item.username,
-          ...item,
-        };
-      });
-    } else {
-      message.error(data || "系统繁忙，请稍后再试");
-    }
+    getUserList();
   } else {
     message.error(res.data || "系统繁忙,请稍后再试");
   }
