@@ -43,6 +43,7 @@ declare module 'vue' {
     Fire: typeof import('./src/components/Fire.vue')['default']
     MeetingRoomBookingModal: typeof import('./src/components/MeetingRoomBookingModal.vue')['default']
     Modal: typeof import('./src/components/Modal.vue')['default']
+    PageList: typeof import('./src/components/pageList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Seeting: typeof import('./src/components/seeting.vue')['default']

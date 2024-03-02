@@ -62,10 +62,12 @@
     </div>
     <!-- 会议室列表 -->
     <div>
-      <a-table
+      <PageList
         :columns="columns"
         :data-source="bookingResult"
         :pagination="false"
+        :total="(totalCount / pageSize) * 10"
+        v-model:current="pageNo"
       >
         <template v-slot:bodyCell="{ column, record }">
           <!-- 会议室名称 -->
@@ -137,20 +139,14 @@
             </a-popconfirm>
           </template>
         </template>
-      </a-table>
-      <div class="pagination">
-        <a-pagination
-          v-model:current="pageNo"
-          :total="(totalCount / pageSize) * 10"
-          show-less-items
-        />
-      </div>
+      </PageList>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import moment from "moment";
-import { onMounted, reactive, ref, watch, watchEffect } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
+import PageList from "@/components/PageList.vue";
 import { message } from "ant-design-vue";
 import { apply, bookingList, reject, unbind } from "../../utils/interfaces";
 import {
@@ -242,7 +238,7 @@ watch(
   { immediate: true }
 );
 onMounted(() => {
-  getBookingList()
+  getBookingList();
 });
 //格式化时间
 function formatTime(date: Date) {
@@ -366,9 +362,6 @@ let columns = [
     display: flex;
     align-items: center;
   }
-}
-.pagination {
-  margin-top: 20px;
 }
 .ant-modal {
   .ant-modal-body {

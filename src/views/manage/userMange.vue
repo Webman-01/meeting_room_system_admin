@@ -44,7 +44,13 @@
     </div>
     <!-- 用户列表 -->
     <div>
-      <a-table :columns="columns" :data-source="userResult" :pagination="false">
+      <PageList
+        :columns="columns"
+        :data-source="userResult"
+        :pagination="false"
+        v-model:current="pageNo"
+        :total="(totalCount / pageSize) * 10"
+      >
         <!-- 用户头像显示 -->
         <template v-slot:bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
@@ -73,14 +79,7 @@
             <div>{{ formatTime(record.updateTime) }}</div>
           </template>
         </template>
-      </a-table>
-      <div class="pagination">
-        <a-pagination
-          v-model:current="pageNo"
-          :total="(totalCount / pageSize) * 10"
-          show-less-items
-        />
-      </div>
+      </PageList>
     </div>
   </div>
 </template>
@@ -88,6 +87,7 @@
 import { onMounted, reactive, ref, watch } from "vue";
 import { message } from "ant-design-vue";
 import { freeze, thaw, userSearch } from "../../utils/interfaces";
+import PageList from "@/components/PageList.vue";
 import {
   UserOutlined,
   RedditOutlined,
@@ -220,9 +220,7 @@ let columns = [
 .top {
   padding-bottom: 20px;
 }
-.pagination {
-  margin-top: 20px;
-}
+
 .ant-table {
   a {
     margin-left: 15px;

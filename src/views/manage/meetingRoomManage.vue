@@ -59,8 +59,6 @@
                 :label-col="{ span: 6 }"
                 :wrapper-col="{ span: 18 }"
                 autocomplete="off"
-                @finish="onFinish"
-                @finishFailed="onFinishFailed"
               >
                 <a-form-item
                   label="会议室名称"
@@ -100,7 +98,9 @@
     </div>
     <!-- 会议室列表 -->
     <div>
-      <a-table
+      <PageList
+        :total="(totalCount / pageSize) * 10"
+        v-model:current="pageNo"
         :columns="columns"
         :data-source="meetingRoomResult"
         :pagination="false"
@@ -134,20 +134,13 @@
             <!-- </div> -->
           </template>
         </template>
-      </a-table>
-      <div class="pagination">
-        <a-pagination
-          v-model:current="pageNo"
-          :total="(totalCount / pageSize) * 10"
-          show-less-items
-        />
-      </div>
+      </PageList>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import moment from "moment";
-import { onMounted, reactive, ref, watch, watchEffect } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { message } from "ant-design-vue";
 import {
   deleteMeetingRoom,
@@ -162,6 +155,7 @@ import {
 } from "@ant-design/icons-vue";
 import MeetingRoomBookingModal from "@/components/MeetingRoomBookingModal.vue";
 import { debounce } from "@/utils/debounce_throttle/debounce.ts";
+import PageList from "@/components/PageList.vue";
 interface SearchMeetingRoomData {
   name: string;
   capacity: string;
@@ -273,13 +267,7 @@ const createMeetingRoomData = reactive<CreateMeetingRoom>({
   equipment: "",
   description: "",
 });
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
 //点击展开modal框
 const showModal = (id: number) => {
   createOpen.value = true;
@@ -367,9 +355,6 @@ let columns = [
 <style lang="scss" scoped>
 .top {
   padding-bottom: 20px;
-}
-.pagination {
-  margin-top: 20px;
 }
 .ant-modal {
   .ant-modal-body {
