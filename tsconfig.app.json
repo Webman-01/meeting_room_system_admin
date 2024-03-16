@@ -6,6 +6,7 @@
     "jsx": "preserve",
     "composite": true,
     "baseUrl": ".",
+    "allowJs": true,
     "paths": {
       "@/*": ["./src/*"]
     }

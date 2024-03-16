@@ -62,7 +62,7 @@ export const useBookingStore = defineStore("bookingSituation", {
         
         //map的最终形态就是结果
         this.result = map;
-        console.log(this.result, "result");
+        // console.log(this.result, "result");
       } else {
         throw new Error(data);
       }

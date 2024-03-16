@@ -99,7 +99,7 @@
         ...values,
         username:formState.username
     });
-    console.log(res);
+    // console.log(res);
     const { message: msg, data } = res.data;
     if (res.status == 200 || res.status == 201) {
       message.success("修改密码成功");

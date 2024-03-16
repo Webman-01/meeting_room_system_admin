@@ -154,7 +154,7 @@ import {
   HomeOutlined,
 } from "@ant-design/icons-vue";
 import MeetingRoomBookingModal from "@/components/MeetingRoomBookingModal.vue";
-import { debounce } from "@/utils/debounce_throttle/debounce.ts";
+import { debounce } from "@/utils/debounce_throttle/debounce";
 import PageList from "@/components/PageList.vue";
 interface SearchMeetingRoomData {
   name: string;

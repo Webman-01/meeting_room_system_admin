@@ -22,14 +22,15 @@ router.beforeEach(
         next("/login");
       }
     } else {
-      const res = await refreshToken();
-      if (res.status == 401) {
-        message.error("登录过期");
-        localStorage.clear();
-        next("/login");
-      } else {
-        next();
-      }
+      // const res = await refreshToken();
+      // if (res.status == 401) {
+      //   message.error("登录过期");
+      //   localStorage.clear();
+      //   next("/login");
+      // } else {
+      //   next();
+      // }
+      next()
     }
   }
 );

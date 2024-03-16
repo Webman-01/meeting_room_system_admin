@@ -51,13 +51,12 @@ import { useRouter } from "vue-router";
 import dayjs from "dayjs";
 import zhCN from "ant-design-vue/es/locale/zh_CN";
 import "dayjs/locale/zh-cn";
-import { ref, watchEffect } from "vue";
+import { nextTick, ref, watchEffect } from "vue";
 import { getUserInfo } from "@/utils/interfaces";
 
 //中文化
 const locale = ref(zhCN);
 dayjs.locale("zh-cn");
-
 
 //展示username和nickName
 const username = ref<string>()
@@ -79,8 +78,10 @@ watchEffect(()=>{
 })
 //获取图片静态路径
 function getImageUrl() {
+  
   const avatarInfo = JSON.parse(localStorage.getItem("user_info") as string);
   const avatar = avatarInfo.avatar;
+  
   return "http://localhost:3000/" + avatar;
 }
 const themeColor = useThemeStore();

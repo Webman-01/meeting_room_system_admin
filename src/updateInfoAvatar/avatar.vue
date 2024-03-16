@@ -33,7 +33,6 @@ import { useAvatarInfoStore } from "@/stores/avatarInfo";
 const loading = ref<boolean>(false);
 let useAvatarInfo = useAvatarInfoStore();
 function getImageUrl(fileName: string) {
-  // console.log("http://localhost:3000/" + fileName);
   return "http://localhost:3000/" + fileName;
 }
 const handleChange = (info: any) => {
@@ -47,7 +46,8 @@ const handleChange = (info: any) => {
     loading.value = false;
   }
   if (status === "done") {
-    console.log(info.file.response, "response");
+    
+    // console.log(info.file.response, "response");
     //修改pinia中avatarUrl来回显
     useAvatarInfo.$patch({ avatarUrl: info.file.response.data });
     message.success(`${info.file.name} 文件上传成功`);

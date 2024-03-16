@@ -55,7 +55,7 @@ watchEffect(() => {
   state.selectedKeys = $route.path == "/userMenu/info_modify" ? ["0"] : ["1"];
 });
 //点击左边栏跳转路由
-const changeRoute = (e: any) => {
+const changeRoute = (e:any) => {
   //获取事件对象
   state.selectedKeys[0] = e.key;
   if (e.key == "0") {
